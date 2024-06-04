@@ -22,13 +22,14 @@ class ReportDbAdapter extends TypeAdapter<ReportDb> {
       problem: fields[2] as String,
       time_started: fields[3] as DateTime,
       time_end: fields[4] as DateTime,
+      calification: fields[5] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, ReportDb obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id_support)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class ReportDbAdapter extends TypeAdapter<ReportDb> {
       ..writeByte(3)
       ..write(obj.time_started)
       ..writeByte(4)
-      ..write(obj.time_end);
+      ..write(obj.time_end)
+      ..writeByte(5)
+      ..write(obj.calification);
   }
 
   @override

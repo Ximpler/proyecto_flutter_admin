@@ -12,6 +12,7 @@ class ReportDb extends HiveObject {
     required this.problem,
     required this.time_started,
     required this.time_end,
+    required this.calification,
   });
   @HiveField(0)
   int id_support;
@@ -23,4 +24,6 @@ class ReportDb extends HiveObject {
   DateTime time_started;
   @HiveField(4)
   DateTime time_end;
+  @HiveField(5)
+  int calification;
 }

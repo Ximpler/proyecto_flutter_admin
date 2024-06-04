@@ -3,7 +3,7 @@ import 'package:loggy/loggy.dart';
 import '../../../domain/entities/user_support.dart';
 import 'package:http/http.dart' as http;
 
-import 'i_remote_user_support.dart';
+import 'i_remote_user_support_source.dart';
 
 class RemoteUserSupportSource implements IRemoteUserSupportSource {
   final http.Client httpClient;

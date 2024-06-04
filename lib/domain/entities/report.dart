@@ -6,16 +6,16 @@ class Report {
     required this.problem,
     required this.time_started,
     required this.time_end,
+    this.calification,
   });
 
   int? id;
   int id_support;
   int id_client;
   String problem;
-  DateTime  time_started;
-  DateTime  time_end;
-
-
+  DateTime time_started;
+  DateTime time_end;
+  int? calification;
 
   factory Report.fromJson(Map<String, dynamic> json) => Report(
         id: json["id"],
@@ -24,6 +24,7 @@ class Report {
         problem: json["problem"] ?? "someProblem",
         time_started: json["time_started"] ?? "",
         time_end: json["time_end"] ?? "",
+        calification: json["calification"] ?? 0, 
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,7 +32,8 @@ class Report {
         "id_support": id_support,
         "id_client": id_client,
         "problem": problem,
-        "time_started": time_started ,
+        "time_started": time_started,
         "time_end": time_end,
+        "calification": calification,
       };
 }
