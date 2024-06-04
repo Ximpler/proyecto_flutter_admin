@@ -15,7 +15,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
   @override
   Future<List<UserSupport>> getUsers() async {
     List<UserSupport> users = [];
-    var request = Uri.parse("https://retoolapi.dev/$apiKey/data")
+    var request = Uri.parse("https://retoolapi.dev/$apiKey/UserSupport")
         .resolveUri(Uri(queryParameters: {
       "format": 'json',
     }));
@@ -41,7 +41,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
     logInfo("Web service, Adding user_support");
 
     final response = await httpClient.post(
-      Uri.parse("https://retoolapi.dev/$apiKey/data"),
+      Uri.parse("https://retoolapi.dev/$apiKey/UserSupport"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -61,7 +61,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
   @override
   Future<bool> updateUser(UserSupport user_support) async {
     final response = await httpClient.put(
-      Uri.parse("https://retoolapi.dev/$apiKey/data/${user_support.id}"),
+      Uri.parse("https://retoolapi.dev/$apiKey/UserSupport/${user_support.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -80,7 +80,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
   @override
   Future<bool> deleteUser(int id) async {
     final response = await httpClient.delete(
-      Uri.parse("https://retoolapi.dev/$apiKey/data/$id"),
+      Uri.parse("https://retoolapi.dev/$apiKey/UserSupport/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

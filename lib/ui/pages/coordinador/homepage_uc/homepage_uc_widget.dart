@@ -369,17 +369,7 @@ class _HomepageUcWidgetState extends State<HomepageUcWidget>
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       8.0, 8.0, 8.0, 0.0),
-                                  child: ListView(
-                                    padding: EdgeInsets.zero,
-                                    scrollDirection: Axis.vertical,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 1.0),
-                                        child: _getxreportlistview(),
-                                      ),
-                                    ],
-                                  ),
+                                  child: _getxreportlistview(),
                                 ),
                               ),
                             ],
@@ -2069,7 +2059,6 @@ class _HomepageUcWidgetState extends State<HomepageUcWidget>
       () => RefreshIndicator(
         onRefresh: () async {
           await reportController.getReports();
-          print("se manda gente");
         },
         child: ListView.builder(
           itemCount: reportController.reports.length,

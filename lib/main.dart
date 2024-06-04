@@ -15,7 +15,6 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
 import 'domain/use_cases/report_usecase.dart';
 import 'data/data_sources/local/local_report_data_source.dart';
 import 'data/data_sources/local/i_local_report_datasource.dart';
@@ -25,16 +24,18 @@ import 'data/repositories/report_repository.dart';
 import 'domain/repositories/i_report_repository.dart';
 import 'domain/use_cases/report_usecase.dart';
 
-
-Future<List<Box>> _openBox() async {
-  final directory = await getApplicationDocumentsDirectory();
-  Hive.initFlutter(); // Initialize Hive for Flutter
-  List<Box> boxList = [];
-  boxList.add(await Hive.openBox('userDb'));
-  boxList.add(await Hive.openBox('userDbOffline'));
-  logInfo("Box opened userDb ${await Hive.boxExists('userDb')}");
-  logInfo("Box opened userDbOffline ${await Hive.boxExists('userDbOffline')}");
-  return boxList;
+Future<void> _initializeHive() async {
+  try {
+    final directory = await getApplicationDocumentsDirectory();
+    await Hive.initFlutter(directory.path);
+    await Hive.openBox('userDb');
+    await Hive.openBox('userDbOffline');
+    logInfo("Box opened userDb: ${await Hive.boxExists('userDb')}");
+    logInfo("Box opened userDbOffline: ${await Hive.boxExists('userDbOffline')}");
+  } catch (e) {
+    logError("Error opening Hive boxes: $e");
+    rethrow; // Rethrow to see the actual error
+  }
 }
 
 void main() async {
@@ -44,25 +45,29 @@ void main() async {
 
   await FlutterFlowTheme.initialize();
 
-  WidgetsFlutterBinding.ensureInitialized();
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(
       showColors: true,
     ),
   );
-  await _openBox();
-  Get.put(NetworkInfo());
-  //report
+
+  await _initializeHive();
   
+  Get.put(NetworkInfo());
   Get.put<ILocalReportDataSource>(LocalReportSource());
   Get.put<IRemoteReportSource>(RemoteReportSource());
-  Get.put<IReportRepository>(ReportRepository(Get.find(), Get.find(), Get.find()));
+  print("se logro hasta RemoteReportSource");
+  
+  Get.put<IReportRepository>(
+      ReportRepository(Get.find(), Get.find(), Get.find()));
+  print("se logro hasta ReportRepository");
+  
   Get.put(ReportUseCase(Get.find()));
+  print("se logro hasta ReportUseCase");
+  
   Get.put(ConnectivityController());
   Get.put(ReportController());
-
   Get.put(ThemeController());
-
 
   runApp(MyApp());
 }
@@ -107,16 +112,13 @@ class ThemeController extends GetxController {
 
 class AppStateNotifier extends GetxController {
   static AppStateNotifier get instance => Get.find();
-
-  // Aquí va el contenido actual de AppStateNotifier
+  // Add your AppStateNotifier content here
 }
 
 class AppPages {
   static final pages = [
-    // Aquí definimos las rutas de nuestra aplicación
-    //GetPage(name: '/', page: () => HomePage()), // Ejemplo de una ruta
     GetPage(name: '/', page: () => const HomePageWidget()),
-    GetPage(name: '/editor_us', page: () => const EditorUsWidget()),
+    GetPage(name: '/editor_us', page: () =>  EditorUsWidget()),
     GetPage(name: '/homepage_uc', page: () => HomepageUcWidget()),
     GetPage(name: '/create_report', page: () => CreateReportWidget()),
     GetPage(name: '/view_report', page: () => ViewReportWidget()),
@@ -124,5 +126,5 @@ class AppPages {
 }
 
 void createRouter(AppStateNotifier appStateNotifier) {
-  // Aquí va la lógica para crear el router
+  // Add your router creation logic here
 }

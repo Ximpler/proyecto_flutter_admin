@@ -7,7 +7,7 @@ import 'i_remote_report_source.dart';
 
 class RemoteReportSource implements IRemoteReportSource {
   final http.Client httpClient;
-  final String apiKey = 'HazrUG';
+  final String apiKey = 'oDnY5J';
   
   RemoteReportSource({http.Client? client})
       : httpClient = client ?? http.Client();
@@ -41,7 +41,7 @@ class RemoteReportSource implements IRemoteReportSource {
     logInfo("Web service, Adding report_support");
 
     final response = await httpClient.post(
-      Uri.parse("https://retoolapi.dev/$apiKey/data"),
+      Uri.parse("https://retoolapi.dev/$apiKey/reports"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -61,7 +61,7 @@ class RemoteReportSource implements IRemoteReportSource {
   @override
   Future<bool> updateReport(Report report_support) async {
     final response = await httpClient.put(
-      Uri.parse("https://retoolapi.dev/$apiKey/data/${report_support.id}"),
+      Uri.parse("https://retoolapi.dev/$apiKey/reports/${report_support.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -80,7 +80,7 @@ class RemoteReportSource implements IRemoteReportSource {
   @override
   Future<bool> deleteReport(int id) async {
     final response = await httpClient.delete(
-      Uri.parse("https://retoolapi.dev/$apiKey/data/$id"),
+      Uri.parse("https://retoolapi.dev/$apiKey/reports/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
