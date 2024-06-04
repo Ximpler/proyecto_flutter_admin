@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:get/get.dart';
 import 'ui/flutter_flow/flutter_flow_theme.dart';
 import 'ui/flutter_flow/flutter_flow_util.dart';
 import 'ui/flutter_flow/nav/nav.dart';
@@ -15,40 +15,15 @@ void main() async {
 
   await FlutterFlowTheme.initialize();
 
+  Get.put(ThemeController());
+  
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
-  @override
-  State<MyApp> createState() => _MyAppState();
-
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
-}
-
-class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
-
-  late AppStateNotifier _appStateNotifier;
-  late GoRouter _router;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _appStateNotifier = AppStateNotifier.instance;
-    _router = createRouter(_appStateNotifier);
-  }
-
-  void setThemeMode(ThemeMode mode) => setState(() {
-        _themeMode = mode;
-        FlutterFlowTheme.saveThemeMode(mode);
-      });
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return GetMaterialApp(
       title: 'Proyecto Flutter Admin',
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -64,8 +39,44 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.dark,
         useMaterial3: false,
       ),
-      themeMode: _themeMode,
-      routerConfig: _router,
+      themeMode: ThemeController.to.themeMode,
+      getPages: AppPages.pages,
     );
   }
+}
+
+class ThemeController extends GetxController {
+  static ThemeController get to => Get.find();
+
+  Rx<ThemeMode> _themeMode = FlutterFlowTheme.themeMode.obs;
+
+  ThemeMode get themeMode => _themeMode.value;
+
+  void setThemeMode(ThemeMode mode) {
+    _themeMode.value = mode;
+    FlutterFlowTheme.saveThemeMode(mode);
+  }
+}
+
+class AppStateNotifier extends GetxController {
+  static AppStateNotifier get instance => Get.find();
+
+  // Aquí va el contenido actual de AppStateNotifier
+}
+
+class AppPages {
+  static final pages = [
+    // Aquí definimos las rutas de nuestra aplicación
+    //GetPage(name: '/', page: () => HomePage()), // Ejemplo de una ruta
+    GetPage(name: '/', page: () => const HomePageWidget()),
+    GetPage(name: '/editor_us', page: () => const EditorUsWidget()),
+    GetPage(name: '/homepage_uc', page: () => HomepageUcWidget()),
+    GetPage(name: '/create_report', page: () => CreateReportWidget()),
+    GetPage(name: '/view_report', page: () => ViewReportWidget()),
+
+  ];
+}
+
+void createRouter(AppStateNotifier appStateNotifier) {
+  // Aquí va la lógica para crear el router
 }

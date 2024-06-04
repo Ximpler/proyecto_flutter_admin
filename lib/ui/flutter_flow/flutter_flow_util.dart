@@ -397,7 +397,7 @@ extension IterableExt<T> on Iterable<T> {
 }
 
 void setDarkModeSetting(BuildContext context, ThemeMode themeMode) =>
-    MyApp.of(context).setThemeMode(themeMode);
+    ThemeController.to.setThemeMode(themeMode);
 
 void showSnackbar(
   BuildContext context,

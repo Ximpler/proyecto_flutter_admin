@@ -1,6 +1,6 @@
 import '../../../domain/entities/report.dart';
 
-abstract class ILocalDataSource {
+abstract class ILocalReportDataSource {
   Future<void> addOfflineReport(Report entry);
 
   Future<List<Report>> getCachedReports();
