@@ -6,7 +6,7 @@ class Report {
     required this.problem,
     required this.time_started,
     required this.time_end,
-    this.calification,
+    required this.calification,
   });
 
   int? id;
@@ -15,7 +15,7 @@ class Report {
   String problem;
   DateTime time_started;
   DateTime time_end;
-  int? calification;
+  int calification;
 
   factory Report.fromJson(Map<String, dynamic> json) => Report(
         id: json["id"],
