@@ -25,7 +25,7 @@ class UserSupportModel {
 
   @override
   String toString() {
-    return 'Dog{id: $id, name: $name, email: $email, password : $password}';
+    return 'UserSupport{id: $id, name: $name, email: $email, password : $password}';
   }
 
   factory UserSupportModel.fromRemote(UserSupportModel remoteModel) =>
@@ -36,7 +36,7 @@ class UserSupportModel {
         password: remoteModel.password,
       );
 
-  UsserSupport toEntity() => UsserSupport(
+  UserSupport toEntity() => UserSupport(
         name: name,
         email: email,
         password: password,
