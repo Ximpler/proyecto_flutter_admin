@@ -13,9 +13,12 @@ import 'ui/controllers/report_controller.dart';
 import 'ui/controllers/connectivity_controller.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 
 import 'domain/use_cases/report_usecase.dart';
-//import 'data/datasources/local/local_report_source.dart';
+import 'data/data_sources/local/local_report_data_source.dart';
+import 'data/data_sources/local/i_local_report_datasource.dart';
 import 'data/data_sources/remote/i_remote_report_source.dart';
 import 'data/data_sources/remote/remote_report_source.dart';
 import 'data/repositories/report_repository.dart';
@@ -23,19 +26,16 @@ import 'domain/repositories/i_report_repository.dart';
 import 'domain/use_cases/report_usecase.dart';
 
 
-
-/*Future<List<Box>> _openBox() async {
+Future<List<Box>> _openBox() async {
   final directory = await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+  Hive.initFlutter(); // Initialize Hive for Flutter
   List<Box> boxList = [];
-  await Hive.initFlutter();
-  Hive.registerAdapter(());
   boxList.add(await Hive.openBox('userDb'));
   boxList.add(await Hive.openBox('userDbOffline'));
   logInfo("Box opened userDb ${await Hive.boxExists('userDb')}");
   logInfo("Box opened userDbOffline ${await Hive.boxExists('userDbOffline')}");
   return boxList;
-}*/
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,21 +43,21 @@ void main() async {
   usePathUrlStrategy();
 
   await FlutterFlowTheme.initialize();
-  //report
+
   WidgetsFlutterBinding.ensureInitialized();
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(
       showColors: true,
     ),
   );
+  await _openBox();
   Get.put(NetworkInfo());
   //report
   
+  Get.put<ILocalReportDataSource>(LocalReportSource());
   Get.put<IRemoteReportSource>(RemoteReportSource());
   Get.put<IReportRepository>(ReportRepository(Get.find(), Get.find(), Get.find()));
-  
   Get.put(ReportUseCase(Get.find()));
-
   Get.put(ConnectivityController());
   Get.put(ReportController());
 
