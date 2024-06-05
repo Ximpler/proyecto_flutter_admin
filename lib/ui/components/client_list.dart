@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_flutter_admin/domain/entities/user_support.dart';
+import 'package:proyecto_flutter_admin/domain/entities/normal_user.dart';
 
-class SupportList extends StatelessWidget {
-  final UserSupport entry;
+class ClientList extends StatelessWidget {
+  final NormalUser entry;
 
-  const SupportList({
+  const ClientList({
     super.key,
     required this.entry,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Placeholder values for attributes not present in UserSupport
-    int reportCount = 0; // This should be obtained from another function
-    double averageRating = 0.0; // This should be obtained from another function
-
     return Container(
+      margin: const EdgeInsets.all(8.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -42,23 +39,12 @@ class SupportList extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4.0),
-              Text('id: ${entry.id ?? 'N/A'}'),
-              const SizedBox(height: 4.0),
-              Text('# of reports: $reportCount'),
-              const SizedBox(height: 4.0),
               Text(
-                entry.email,
+                entry.id != null ? entry.id.toString() : 'N/A',
                 style: const TextStyle(
-                  color: Colors.blue,
+                  fontSize: 14.0,
+                  color: Colors.black54,
                 ),
-              ),
-              const SizedBox(height: 4.0),
-              Row(
-                children: [
-                  Text('Password: ${entry.password}'),
-                  const SizedBox(width: 8.0),
-                  Text('average rating: $averageRating'),
-                ],
               ),
             ],
           ),
