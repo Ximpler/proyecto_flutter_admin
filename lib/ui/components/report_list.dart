@@ -1,224 +1,118 @@
-import 'package:proyecto_flutter_admin/domain/entities/report.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/report_controller.dart';
+import 'package:proyecto_flutter_admin/domain/entities/report.dart';
 
+import './qualify_reports.dart';
 
-import '../flutter_flow/flutter_flow_theme.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-
-
-//import '../pages/report_detail_page.dart'; agregar pagina para ver detalles
-
-class ReportList extends StatelessWidget {
+class ReportCard extends StatelessWidget {
   final Report entry;
-  const ReportList(this.entry, {Key? key}) : super(key: key);
+
+  const ReportCard({
+    super.key,
+    required this.entry,
+  });
+
+  void _showRatingDialog(BuildContext context, int reportId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return RatingPopUp(
+          reportId: reportId,
+          onRatingSubmitted: (rating) {
+            // Handle the rating submission logic here
+            print('Rating submitted: $rating');
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    ReportController reportController = Get.find();
-    int id = entry.id ?? 0;
-    return Container(
-      width: 100.0,
-      decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 0.0,
-            color: FlutterFlowTheme.of(context).alternate,
-            offset: Offset(
-              0.0,
-              1.0,
+    return GestureDetector(
+      onTap: () => _showRatingDialog(context, entry.id ?? 0),
+      child: Container(
+        margin: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 6.0,
+              offset: Offset(0, 2),
             ),
-          )
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 24.0),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 3.0,
-                color: Color(0x33000000),
-                offset: Offset(
-                  0.0,
-                  1.0,
-                ),
-              )
-            ],
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 8.0, 0.0),
-                            child: Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.person,
-                                color: Color(0xFF4B39EF),
-                                size: 24.0,
-                              ),
-                            ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.blue.shade100,
+                      child: const Icon(Icons.person, color: Colors.blue),
+                    ),
+                    const SizedBox(width: 8.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Name', // Asumiendo que deberías obtener el nombre desde otra fuente
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            entry.id_client.toString(),//aqui iria el nombre
-                      
-                            style:
-                                FlutterFlowTheme.of(context).bodyLarge.override(
-                                      fontFamily: 'Readex Pro',
-                                      letterSpacing: 0.0,
-                                    ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                20.0, 0.0, 0.0, 0.0),
-                            child: Text(
-                              'Report Id:'+entry.id.toString(),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'Readex Pro',
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Calification',
-                            style: FlutterFlowTheme.of(context)
-                                .labelSmall
-                                .override(
-                                  fontFamily: 'Readex Pro',
-                                  letterSpacing: 0.0,
-                                ),
-                          ),
-                          Align(
-                            alignment: AlignmentDirectional(0.0, 0.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 4.0, 0.0),
-                                  child: Text(
-                                    entry.calification.toString(),
-                                    style: FlutterFlowTheme.of(context)
-                                        .headlineMedium
-                                        .override(
-                                          fontFamily: 'Outfit',
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        Text('Report Id: ${entry.id ?? 'N/A'}'),
+                      ],
+                    ),
+                  ],
                 ),
                 Column(
-                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'client: Client name',
-                            style: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .override(
-                                  fontFamily: 'Readex Pro',
-                                  letterSpacing: 0.0,
-                                ),
-                          ),
-                          Text(
-                            'Client id: '+entry.id_client.toString(),
-                            style: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .override(
-                                  fontFamily: 'Readex Pro',
-                                  letterSpacing: 0.0,
-                                ),
-                          ),
-                          Text(
-                            'date:'+entry.time_started,
-                            style: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .override(
-                                  fontFamily: 'Readex Pro',
-                                  letterSpacing: 0.0,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 8.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: AutoSizeText(
-                              entry.problem,
-                              style: FlutterFlowTheme.of(context)
-                                  .labelMedium
-                                  .override(
-                                    fontFamily: 'Readex Pro',
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const Text('Calification',
+                        style: TextStyle(fontSize: 12.0)),
                     Text(
-                      'time end:'+entry.time_end, //aqui va el tiempo de duración no hasta donde termino el trabajo pero bueh
-                      style: FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Readex Pro',
-                            letterSpacing: 0.0,
-                          ),
+                      entry.calification.toString(),
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 8.0),
+            const Text(
+              'Client: Client name', // Asumiendo que deberías obtener el nombre del cliente desde otra fuente
+              style: TextStyle(fontSize: 14.0),
+            ),
+            Text(
+              'Client id: ${entry.id_client}',
+              style: const TextStyle(fontSize: 14.0),
+            ),
+            Text(
+              'Date: ${entry.time_started}',
+              style: const TextStyle(fontSize: 14.0),
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              entry.problem,
+              style: const TextStyle(fontSize: 14.0),
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              'Duration time: ${entry.time_end}', // Aquí deberías calcular y mostrar la duración
+              style: const TextStyle(fontSize: 14.0),
+            ),
+          ],
         ),
       ),
     );
