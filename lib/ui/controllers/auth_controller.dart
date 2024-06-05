@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:loggy/loggy.dart';
 
 import 'user_support_controller.dart';
 import '../../domain/entities/user_support.dart';
@@ -32,6 +33,8 @@ class AuthController extends GetxController {
       var userSupport =
           getUserSupport(emailController.text, passwordController.text);
       if (userSupport != null) {
+        logInfo(userSupport.id);
+        logInfo(userSupport);
         Get.toNamed('/view_report', arguments: userSupport);
       } else {
         Get.snackbar('Error', 'Invalid credentials');

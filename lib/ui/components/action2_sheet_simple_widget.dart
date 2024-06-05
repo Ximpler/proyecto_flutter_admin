@@ -8,7 +8,8 @@ import 'action2_sheet_simple_model.dart';
 export 'action2_sheet_simple_model.dart';
 
 class Action2SheetSimpleWidget extends StatefulWidget {
-  const Action2SheetSimpleWidget({super.key});
+  const Action2SheetSimpleWidget({required this.onRatingSubmitted, super.key});
+  final Function(String) onRatingSubmitted;
 
   @override
   State<Action2SheetSimpleWidget> createState() =>
@@ -69,6 +70,8 @@ class _Action2SheetSimpleWidgetState extends State<Action2SheetSimpleWidget> {
             FFButtonWidget(
               onPressed: () {
                 print('Button pressed ...');
+                Navigator.of(context).pop();
+                return widget.onRatingSubmitted('Edit');
               },
               text: 'Edit',
               options: FFButtonOptions(
@@ -92,6 +95,8 @@ class _Action2SheetSimpleWidgetState extends State<Action2SheetSimpleWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
               child: FFButtonWidget(
                 onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onRatingSubmitted('Delete');
                   print('Button pressed ...');
                 },
                 text: 'Delete',
@@ -118,6 +123,8 @@ class _Action2SheetSimpleWidgetState extends State<Action2SheetSimpleWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
               child: FFButtonWidget(
                 onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onRatingSubmitted('Cancel');
                   print('Button pressed ...');
                 },
                 text: 'Cancel',

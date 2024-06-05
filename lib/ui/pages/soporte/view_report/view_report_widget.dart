@@ -16,7 +16,6 @@ import 'view_report_model.dart';
 export 'view_report_model.dart';
 import 'package:loggy/loggy.dart';
 
-
 import '../../../../domain/entities/user_support.dart';
 import '../../../controllers/report_controller.dart';
 import '../../../components/us_report_list.dart';
@@ -117,8 +116,8 @@ class _ViewReportWidgetState extends State<ViewReportWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        
-
+                        logInfo("view_report user id: ${user.id}");
+                        print(user.toString());
                         Get.toNamed('/create_report', arguments: user.id);
                       },
                       child: Icon(
@@ -143,7 +142,6 @@ class _ViewReportWidgetState extends State<ViewReportWidget>
         onRefresh: () async {
           await reportController.getReports();
         },
-        
         child: ListView.builder(
           itemCount: reportController.reports
               .where((report) => report.id_support == widget.user.id)
