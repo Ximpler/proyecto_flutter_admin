@@ -14,6 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'view_report_model.dart';
 export 'view_report_model.dart';
+import 'package:loggy/loggy.dart';
+
 
 import '../../../../domain/entities/user_support.dart';
 import '../../../controllers/report_controller.dart';
@@ -115,6 +117,8 @@ class _ViewReportWidgetState extends State<ViewReportWidget>
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        
+
                         Get.toNamed('/create_report', arguments: user.id);
                       },
                       child: Icon(

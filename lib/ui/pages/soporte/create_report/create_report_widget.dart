@@ -14,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'create_report_model.dart';
 export 'create_report_model.dart';
+import 'package:loggy/loggy.dart';
 
 import '../../../../domain/entities/report.dart';
 
@@ -85,7 +86,7 @@ class _CreateReportWidgetState extends State<CreateReportWidget>
 
   @override
   Widget build(BuildContext context) {
-    
+    logInfo('id que se obtine = ${widget.id}');
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -643,21 +644,21 @@ class _CreateReportWidgetState extends State<CreateReportWidget>
         calification: 0);
     reportController.addReport(report);
     showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Report Created'),
-        content: Text('Your report has been successfully created.'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Report Created'),
+          content: Text('Your report has been successfully created.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
