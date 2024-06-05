@@ -1,6 +1,6 @@
-import '../../../domain/entities/user_support.dart';
+import '../entities/user_support.dart';
 
-abstract class IRemoteUserSupportSource {
+abstract class IUserSupportRepository {
   Future<List<UserSupport>> getUserSupports();
 
   Future<bool> addUserSupport(UserSupport user_support);
@@ -9,5 +9,5 @@ abstract class IRemoteUserSupportSource {
 
   Future<bool> deleteUserSupport(int id);
 
-  Future<bool> deleteUserSupports();
+  Future<void> deleteUserSupports();
 }

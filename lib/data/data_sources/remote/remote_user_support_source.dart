@@ -13,7 +13,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
       : httpClient = client ?? http.Client();
 
   @override
-  Future<List<UserSupport>> getUsers() async {
+  Future<List<UserSupport>> getUserSupports() async {
     List<UserSupport> users = [];
     var request = Uri.parse("https://retoolapi.dev/$apiKey/UserSupport")
         .resolveUri(Uri(queryParameters: {
@@ -37,7 +37,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
   }
 
   @override
-  Future<bool> addUser(UserSupport user_support) async {
+  Future<bool> addUserSupport(UserSupport user_support) async {
     logInfo("Web service, Adding user_support");
 
     final response = await httpClient.post(
@@ -59,7 +59,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
   }
 
   @override
-  Future<bool> updateUser(UserSupport user_support) async {
+  Future<bool> updateUserSupport(UserSupport user_support) async {
     final response = await httpClient.put(
       Uri.parse("https://retoolapi.dev/$apiKey/UserSupport/${user_support.id}"),
       headers: <String, String>{
@@ -78,7 +78,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
   }
 
   @override
-  Future<bool> deleteUser(int id) async {
+  Future<bool> deleteUserSupport(int id) async {
     final response = await httpClient.delete(
       Uri.parse("https://retoolapi.dev/$apiKey/UserSupport/$id"),
       headers: <String, String>{
@@ -96,10 +96,10 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
   }
 
   @override
-  Future<bool> deleteUsers() async {
-    List<UserSupport> users = await getUsers();
+  Future<bool> deleteUserSupports() async {
+    List<UserSupport> users = await getUserSupports();
     for (var user_support in users) {
-      await deleteUser(user_support.id!);
+      await deleteUserSupport(user_support.id!);
     }
     return Future.value(true);
   }

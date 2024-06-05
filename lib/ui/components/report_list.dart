@@ -8,7 +8,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 
-//import '../pages/data_detail_page.dart'; agregar pagina para ver detalles
+//import '../pages/report_detail_page.dart'; agregar pagina para ver detalles
 
 class ReportList extends StatelessWidget {
   final Report entry;
