@@ -4,7 +4,7 @@ part 'user_support_db.g.dart';
 
 //execute dart run build_runner build to generate the .g file
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
 class UserSupportDb extends HiveObject {
   UserSupportDb({
     required this.name,

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:get/get.dart';
+import 'package:proyecto_flutter_admin/data/data_sources/local/local_user_support_data_source.dart';
+import 'package:proyecto_flutter_admin/data/models/user_support_db.dart';
+
 import 'ui/flutter_flow/flutter_flow_theme.dart';
 import 'ui/flutter_flow/flutter_flow_util.dart';
 import 'ui/flutter_flow/nav/nav.dart';
@@ -22,19 +25,34 @@ import 'data/data_sources/remote/i_remote_report_source.dart';
 import 'data/data_sources/remote/remote_report_source.dart';
 import 'data/repositories/report_repository.dart';
 import 'domain/repositories/i_report_repository.dart';
-
 import 'data/models/report_db.dart';
+
+import 'package:proyecto_flutter_admin/domain/entities/user_support.dart';
+import 'domain/repositories/i_user_support_repository.dart';
+import 'package:proyecto_flutter_admin/domain/repositories/i_user_support_repository.dart';
+import 'package:proyecto_flutter_admin/data/repositories/user_support_repository.dart';
+import 'package:proyecto_flutter_admin/domain/use_cases/user_support_usecase.dart';
+import 'package:proyecto_flutter_admin/ui/controllers/user_support_controller.dart';
+import 'data/data_sources/local/i_local_user_support_datasource.dart';
+import 'data/data_sources/remote/i_remote_user_support_source.dart';
+import 'data/data_sources/remote/remote_user_support_source.dart';
 
 Future<void> _initializeHive() async {
   try {
     final directory = await getApplicationDocumentsDirectory();
     await Hive.initFlutter(directory.path);
     Hive.registerAdapter(ReportDbAdapter());
+    Hive.registerAdapter(UserSupportDbAdapter());
     await Hive.openBox('reportDb');
     await Hive.openBox('reportDbOffline');
+    await Hive.openBox('user_supportDb');
+    await Hive.openBox('user_supportDbOffline');
     logInfo("Box opened reportDb: ${await Hive.boxExists('reportDb')}");
     logInfo(
         "Box opened reportDbOffline: ${await Hive.boxExists('reportDbOffline')}");
+    logInfo("Box opened reportDb: ${await Hive.boxExists('user_supportDb')}");
+    logInfo(
+        "Box opened reportDbOffline: ${await Hive.boxExists('user_supportDbOffline')}");
   } catch (e) {
     logError("Error opening Hive boxes: $e");
     rethrow; // Rethrow to see the actual error
@@ -58,17 +76,21 @@ void main() async {
 
   Get.put(NetworkInfo());
   Get.put<ILocalReportDataSource>(LocalReportSource());
+  Get.put<ILocalUserSupportDataSource>(LocalUserSupportSource());
+
   Get.put<IRemoteReportSource>(RemoteReportSource());
-  print("se logro hasta RemoteReportSource");
+  Get.put<IRemoteUserSupportSource>(RemoteUserSupportSource());
 
   Get.put<IReportRepository>(
       ReportRepository(Get.find(), Get.find(), Get.find()));
-  print("se logro hasta ReportRepository");
+  Get.put<IUserSupportRepository>(
+      UserSupportRepository(Get.find(), Get.find(), Get.find()));
 
   Get.put(ReportUseCase(Get.find()));
-  print("se logro hasta ReportUseCase");
+  Get.put(UserSupportUseCase(Get.find()));
 
   Get.put(ConnectivityController());
+  Get.put(UserSupportController());
   Get.put(ReportController());
   Get.put(ThemeController());
 

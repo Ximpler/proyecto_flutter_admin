@@ -8,7 +8,7 @@ part of 'user_support_db.dart';
 
 class UserSupportDbAdapter extends TypeAdapter<UserSupportDb> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
   UserSupportDb read(BinaryReader reader) {
