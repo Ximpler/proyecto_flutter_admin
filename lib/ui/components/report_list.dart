@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_flutter_admin/domain/entities/report.dart';
+import 'package:proyecto_flutter_admin/ui/controllers/report_controller.dart';
+import 'package:get/get.dart';
 
 import './qualify_reports.dart';
 
-class ReportCard extends StatelessWidget {
+class ReportList extends StatelessWidget {
   final Report entry;
+  ReportList(this.entry, {Key? key}) : super(key: key);
 
-  const ReportCard({
-    super.key,
-    required this.entry,
-  });
-
+  ReportController user_supportController = Get.find();
   void _showRatingDialog(BuildContext context, int reportId) {
     showDialog(
       context: context,
@@ -19,6 +18,8 @@ class ReportCard extends StatelessWidget {
           reportId: reportId,
           onRatingSubmitted: (rating) {
             // Handle the rating submission logic here
+            entry.calification = rating;
+            user_supportController.updateReport(entry);
             print('Rating submitted: $rating');
           },
         );
