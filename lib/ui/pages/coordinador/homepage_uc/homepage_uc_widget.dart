@@ -42,7 +42,7 @@ class _HomepageUcWidgetState extends State<HomepageUcWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => HomepageUcModel());
-
+    reportController.getReports();
     _model.tabBarController = TabController(
       vsync: this,
       length: 3,
@@ -2060,7 +2060,7 @@ class _HomepageUcWidgetState extends State<HomepageUcWidget>
         onRefresh: () async {
           await reportController.getReports();
         },
-        child: ListView.builder(
+         child: ListView.builder(
           itemCount: reportController.reports.length,
           itemBuilder: (context, index) {
             final entry = reportController.reports[index];

@@ -23,15 +23,18 @@ import 'data/data_sources/remote/remote_report_source.dart';
 import 'data/repositories/report_repository.dart';
 import 'domain/repositories/i_report_repository.dart';
 
+import 'data/models/report_db.dart';
 
 Future<void> _initializeHive() async {
   try {
     final directory = await getApplicationDocumentsDirectory();
     await Hive.initFlutter(directory.path);
+    Hive.registerAdapter(ReportDbAdapter());
     await Hive.openBox('reportDb');
     await Hive.openBox('reportDbOffline');
     logInfo("Box opened reportDb: ${await Hive.boxExists('reportDb')}");
-    logInfo("Box opened reportDbOffline: ${await Hive.boxExists('reportDbOffline')}");
+    logInfo(
+        "Box opened reportDbOffline: ${await Hive.boxExists('reportDbOffline')}");
   } catch (e) {
     logError("Error opening Hive boxes: $e");
     rethrow; // Rethrow to see the actual error
@@ -52,19 +55,19 @@ void main() async {
   );
 
   await _initializeHive();
-  
+
   Get.put(NetworkInfo());
   Get.put<ILocalReportDataSource>(LocalReportSource());
   Get.put<IRemoteReportSource>(RemoteReportSource());
   print("se logro hasta RemoteReportSource");
-  
+
   Get.put<IReportRepository>(
       ReportRepository(Get.find(), Get.find(), Get.find()));
   print("se logro hasta ReportRepository");
-  
+
   Get.put(ReportUseCase(Get.find()));
   print("se logro hasta ReportUseCase");
-  
+
   Get.put(ConnectivityController());
   Get.put(ReportController());
   Get.put(ThemeController());
@@ -118,7 +121,7 @@ class AppStateNotifier extends GetxController {
 class AppPages {
   static final pages = [
     GetPage(name: '/', page: () => const HomePageWidget()),
-    GetPage(name: '/editor_us', page: () =>  EditorUsWidget()),
+    GetPage(name: '/editor_us', page: () => EditorUsWidget()),
     GetPage(name: '/homepage_uc', page: () => HomepageUcWidget()),
     GetPage(name: '/create_report', page: () => CreateReportWidget()),
     GetPage(name: '/view_report', page: () => ViewReportWidget()),

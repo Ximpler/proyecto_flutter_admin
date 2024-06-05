@@ -20,8 +20,8 @@ class ReportDbAdapter extends TypeAdapter<ReportDb> {
       id_support: fields[0] as int,
       id_client: fields[1] as int,
       problem: fields[2] as String,
-      time_started: fields[3] as DateTime,
-      time_end: fields[4] as DateTime,
+      time_started: fields[3] as String,
+      time_end: fields[4] as String,
       calification: fields[5] as int,
     );
   }

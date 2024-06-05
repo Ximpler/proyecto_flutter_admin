@@ -21,9 +21,9 @@ class ReportDb extends HiveObject {
   @HiveField(2)
   String problem;
   @HiveField(3)
-  DateTime time_started;
+  String time_started;
   @HiveField(4)
-  DateTime time_end;
+  String time_end;
   @HiveField(5)
   int calification;
 }

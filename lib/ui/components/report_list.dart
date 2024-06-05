@@ -176,7 +176,7 @@ class ReportList extends StatelessWidget {
                                 ),
                           ),
                           Text(
-                            'date:'+entry.time_started.toString(),
+                            'date:'+entry.time_started,
                             style: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
@@ -208,7 +208,7 @@ class ReportList extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'time end:'+entry.time_end.toString(), //aqui va el tiempo de duración no hasta donde termino el trabajo pero bueh
+                      'time end:'+entry.time_end, //aqui va el tiempo de duración no hasta donde termino el trabajo pero bueh
                       style: FlutterFlowTheme.of(context).labelMedium.override(
                             fontFamily: 'Readex Pro',
                             letterSpacing: 0.0,

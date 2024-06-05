@@ -15,26 +15,38 @@ class ReportRepository implements IReportRepository {
 
   @override
   Future<List<Report>> getReports() async {
-    if (await _networkInfo.isConnected()) {
-      logInfo("getReports online");
-      // Get offline reports and add them to the backend
-      final offLineReports = await _localDataSource.getOfflineReports();
-      if (offLineReports.isNotEmpty) {
-        logInfo("getReports found ${offLineReports.length} offline reports");
-        for (var report in offLineReports) {
-          var rta = await _reportDatatasource.addReport(report);
-          if (rta) {
-            await _localDataSource.deleteOfflineEntry(report);
-          } else {
-            logError("getReports error adding offline report");
+    const int maxRetries = 4;
+    const Duration retryDelay = Duration(milliseconds: 50);
+
+    for (int attempt = 0; attempt < maxRetries; attempt++) {
+      bool connected = await _networkInfo.isConnected();
+      logInfo(
+          "ReportRepository: getReports() - attempt $attempt, connected: $connected");
+
+      if (connected) {
+        logInfo("getReports online");
+        // Get offline reports and add them to the backend
+        final offLineReports = await _localDataSource.getOfflineReports();
+        if (offLineReports.isNotEmpty) {
+          logInfo("getReports found ${offLineReports.length} offline reports");
+          for (var report in offLineReports) {
+            var rta = await _reportDatatasource.addReport(report);
+            if (rta) {
+              await _localDataSource.deleteOfflineEntry(report);
+            } else {
+              logError("getReports error adding offline report");
+            }
           }
         }
+        // Get reports from backend
+        final reports = await _reportDatatasource.getReports();
+        logInfo("getReports online reports: ${reports.length}");
+        await _localDataSource.cacheReports(reports);
+        return reports;
       }
-      // Get reports from backend
-      final reports = await _reportDatatasource.getReports();
-      logInfo("getReports online reports: ${reports.length}");
-      await _localDataSource.cacheReports(reports);
-      return reports;
+
+      // Wait before next attempt
+      await Future.delayed(retryDelay);
     }
     // Get offline reports
     logInfo("getReports offline");

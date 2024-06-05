@@ -32,7 +32,7 @@ class RemoteReportSource implements IRemoteReportSource {
       logError("Got error code ${response.statusCode}");
       return Future.error('Error code ${response.statusCode}');
     }
-
+    logInfo('Reports fetched: $reports');
     return Future.value(reports);
   }
 

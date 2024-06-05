@@ -13,8 +13,8 @@ class Report {
   int id_support;
   int id_client;
   String problem;
-  DateTime time_started;
-  DateTime time_end;
+  String time_started;
+  String time_end;
   int calification;
 
   factory Report.fromJson(Map<String, dynamic> json) => Report(
