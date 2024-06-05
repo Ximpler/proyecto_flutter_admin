@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_flutter_admin/domain/entities/user_support.dart';
 import 'package:get/get.dart';
+import 'package:proyecto_flutter_admin/domain/entities/user_support.dart';
 
 import '../controllers/user_support_controller.dart';
 
-
-
 class SupportList extends StatelessWidget {
   final UserSupport entry;
-  const SupportList(this.entry, {Key? key}) : super(key: key);
+  const SupportList(this.entry, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    UserSupportController user_supportController = Get.find();
+    UserSupportController userSupportcontroller = Get.find();
     int id = entry.id ?? 0;
     // Placeholder values for attributes not present in UserSupport
     int reportCount = 0; // This should be obtained from another function
@@ -45,7 +43,7 @@ class SupportList extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4.0),
-              Text('id: ${entry.id.toString() ?? 'N/A'}'),
+              Text('id: ${id.toString()}'),
               const SizedBox(height: 4.0),
               Text('# of reports: $reportCount'),
               const SizedBox(height: 4.0),
