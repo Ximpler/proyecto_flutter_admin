@@ -18,6 +18,13 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'data/data_sources/remote/i_remote_normal_user_source.dart';
+import 'data/data_sources/remote/remote_normal_user_source.dart';
+import 'data/repositories/normal_user_repository.dart';
+import 'domain/repositories/i_normal_user_repository.dart';
+import 'package:proyecto_flutter_admin/domain/use_cases/normal_user_usecase.dart';
+import 'package:proyecto_flutter_admin/ui/controllers/normal_user_controller.dart';
+
 import 'domain/use_cases/report_usecase.dart';
 import 'data/data_sources/local/local_report_data_source.dart';
 import 'data/data_sources/local/i_local_report_datasource.dart';
@@ -80,19 +87,23 @@ void main() async {
 
   Get.put<IRemoteReportSource>(RemoteReportSource());
   Get.put<IRemoteUserSupportSource>(RemoteUserSupportSource());
+  Get.put<IRemoteNormalUserSource>(RemoteNormalUserSource());
 
   Get.put<IReportRepository>(
       ReportRepository(Get.find(), Get.find(), Get.find()));
   Get.put<IUserSupportRepository>(
       UserSupportRepository(Get.find(), Get.find(), Get.find()));
+  Get.put<INormalUserRepository>(NormalUserRepository(Get.find()));
 
   Get.put(ReportUseCase(Get.find()));
   Get.put(UserSupportUseCase(Get.find()));
+  Get.put(NormalUserUseCase(Get.find()));
 
   Get.put(ConnectivityController());
   Get.put(UserSupportController());
   Get.put(ReportController());
   Get.put(ThemeController());
+  Get.put(NormalUserController());
 
   runApp(MyApp());
 }
@@ -145,8 +156,20 @@ class AppPages {
     GetPage(name: '/', page: () => const HomePageWidget()),
     GetPage(name: '/editor_us', page: () => EditorUsWidget()),
     GetPage(name: '/homepage_uc', page: () => HomepageUcWidget()),
-    GetPage(name: '/create_report', page: () => CreateReportWidget()),
-    GetPage(name: '/view_report', page: () => ViewReportWidget()),
+    GetPage(
+      name: '/create_report',
+      page: () {
+        final int id = Get.arguments as int;
+        return CreateReportWidget(id: id);
+      },
+    ),
+    GetPage(
+      name: '/view_report',
+      page: () {
+        final UserSupport userSupport = Get.arguments;
+        return ViewReportWidget(userSupport);
+      },
+    ),
   ];
 }
 

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_flutter_admin/domain/entities/normal_user.dart';
+import 'package:get/get.dart';
 
-class ClientList extends StatelessWidget {
+import '../controllers/normal_user_controller.dart';
+
+class NormalUserList extends StatelessWidget {
   final NormalUser entry;
+  NormalUserList(this.entry, {Key? key}) : super(key: key);
 
-  const ClientList({
-    super.key,
-    required this.entry,
-  });
+  NormalUserController normal_userController = Get.find();
 
   @override
   Widget build(BuildContext context) {

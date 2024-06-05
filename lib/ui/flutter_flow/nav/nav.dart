@@ -16,6 +16,8 @@ import 'serialization_util.dart';
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
 
+import '../../../../../domain/entities/user_support.dart';
+
 const kTransitionInfoKey = '__transition_info__';
 
 class AppStateNotifier extends ChangeNotifier {
@@ -61,12 +63,31 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'create_report',
           path: '/createReport',
-          builder: (context, params) => CreateReportWidget(),
+          builder: (context, params) {
+            final idJson = params.getParam('id', ParamType.int);
+            if (idJson == null) {
+              return const Scaffold(
+                body: Center(child: Text('Error: No ID data')),
+              );
+            }
+            final id = jsonDecode(idJson);
+            return CreateReportWidget(id: id);
+          },
         ),
         FFRoute(
           name: 'view_report',
           path: '/viewReport',
-          builder: (context, params) => ViewReportWidget(),
+          builder: (context, params) {
+            final userSupportJson =
+                params.getParam('userSupport', ParamType.String);
+            if (userSupportJson == null) {
+              return const Scaffold(
+                  body: Center(child: Text('Error: No user support data')));
+            }
+            final userSupport =
+                UserSupport.fromJson(jsonDecode(userSupportJson));
+            return ViewReportWidget(userSupport);
+          },
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

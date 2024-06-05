@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 import '../../../flutter_flow/flutter_flow_animations.dart';
 import '../../../flutter_flow/flutter_flow_icon_button.dart';
 import '../../../flutter_flow/flutter_flow_theme.dart';
@@ -13,8 +15,14 @@ import 'package:provider/provider.dart';
 import 'create_report_model.dart';
 export 'create_report_model.dart';
 
+import '../../../../domain/entities/report.dart';
+
+import '../../../controllers/report_controller.dart';
+
 class CreateReportWidget extends StatefulWidget {
-  const CreateReportWidget({super.key});
+  const CreateReportWidget({Key? key, required this.id}) : super(key: key);
+
+  final int id;
 
   @override
   State<CreateReportWidget> createState() => _CreateReportWidgetState();
@@ -77,6 +85,7 @@ class _CreateReportWidgetState extends State<CreateReportWidget>
 
   @override
   Widget build(BuildContext context) {
+    
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -98,7 +107,7 @@ class _CreateReportWidgetState extends State<CreateReportWidget>
               size: 30.0,
             ),
             onPressed: () async {
-              context.safePop();
+              Get.back();
             },
           ),
           actions: [],
@@ -162,7 +171,7 @@ class _CreateReportWidgetState extends State<CreateReportWidget>
                                 autofocus: true,
                                 obscureText: false,
                                 decoration: InputDecoration(
-                                  labelText: 'Client Name...',
+                                  labelText: 'Client Id...',
                                   labelStyle: FlutterFlowTheme.of(context)
                                       .labelMedium
                                       .override(
@@ -575,6 +584,7 @@ class _CreateReportWidgetState extends State<CreateReportWidget>
                               0.0, 24.0, 0.0, 12.0),
                           child: FFButtonWidget(
                             onPressed: () {
+                              uscreateReport();
                               print('Button pressed ...');
                             },
                             text: 'Submit Ticket',
@@ -615,5 +625,39 @@ class _CreateReportWidgetState extends State<CreateReportWidget>
         ),
       ),
     );
+  }
+
+  void uscreateReport() {
+    ReportController reportController = Get.find();
+    final supportId = widget.id;
+    final clientId = _model.textController1.text;
+    final description = _model.textController2.text;
+    final startDate = _model.datePicked1;
+    final endDate = _model.datePicked2;
+    Report report = Report(
+        id_support: supportId,
+        id_client: int.parse(clientId),
+        problem: description,
+        time_started: startDate.toString(),
+        time_end: endDate.toString(),
+        calification: 0);
+    reportController.addReport(report);
+    showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Report Created'),
+        content: Text('Your report has been successfully created.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
   }
 }

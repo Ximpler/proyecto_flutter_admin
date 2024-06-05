@@ -79,7 +79,7 @@ class ReportList extends StatelessWidget {
                     const Text('Calification',
                         style: TextStyle(fontSize: 12.0)),
                     Text(
-                      entry.calification.toString(),
+                     entry.calification != 0 ? entry.calification.toString() : '-',
                       style: const TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
