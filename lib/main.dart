@@ -22,16 +22,16 @@ import 'data/data_sources/remote/i_remote_report_source.dart';
 import 'data/data_sources/remote/remote_report_source.dart';
 import 'data/repositories/report_repository.dart';
 import 'domain/repositories/i_report_repository.dart';
-import 'domain/use_cases/report_usecase.dart';
+
 
 Future<void> _initializeHive() async {
   try {
     final directory = await getApplicationDocumentsDirectory();
     await Hive.initFlutter(directory.path);
-    await Hive.openBox('userDb');
-    await Hive.openBox('userDbOffline');
-    logInfo("Box opened userDb: ${await Hive.boxExists('userDb')}");
-    logInfo("Box opened userDbOffline: ${await Hive.boxExists('userDbOffline')}");
+    await Hive.openBox('reportDb');
+    await Hive.openBox('reportDbOffline');
+    logInfo("Box opened reportDb: ${await Hive.boxExists('reportDb')}");
+    logInfo("Box opened reportDbOffline: ${await Hive.boxExists('reportDbOffline')}");
   } catch (e) {
     logError("Error opening Hive boxes: $e");
     rethrow; // Rethrow to see the actual error
