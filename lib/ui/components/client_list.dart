@@ -37,6 +37,7 @@ class NormalUserList extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 4.0),

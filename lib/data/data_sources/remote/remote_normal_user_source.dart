@@ -26,7 +26,7 @@ class RemoteNormalUserSource implements IRemoteNormalUserSource {
       //logInfo(response.body);
       final data = jsonDecode(response.body);
 
-      normal_users = List<NormalUser>.from(data.skip(1).map((x) => NormalUser.fromJson(x)));
+      normal_users = List<NormalUser>.from(data.skip(0).map((x) => NormalUser.fromJson(x)));
       //normal_users.removeAt(1);
     } else {
       logError("Got error code ${response.statusCode}");

@@ -40,12 +40,19 @@ class SupportList extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 4.0),
-              Text('id: ${id.toString()}'),
+              Text(
+                'id: ${id.toString()}',
+                style: const TextStyle(color: Colors.black),
+              ),
               const SizedBox(height: 4.0),
-              Text('# of reports: $reportCount'),
+              Text(
+                '# of reports: $reportCount',
+                style: const TextStyle(color: Colors.black),
+              ),
               const SizedBox(height: 4.0),
               Text(
                 entry.email,
@@ -56,9 +63,15 @@ class SupportList extends StatelessWidget {
               const SizedBox(height: 4.0),
               Row(
                 children: [
-                  Text('Password: ${entry.password}'),
+                  Text(
+                    'Password: ${entry.password}',
+                    style: const TextStyle(color: Colors.black),
+                  ),
                   const SizedBox(width: 8.0),
-                  Text('average rating: $averageRating'),
+                  Text(
+                    'average rating: $averageRating',
+                    style: const TextStyle(color: Colors.black),
+                  ),
                 ],
               ),
             ],

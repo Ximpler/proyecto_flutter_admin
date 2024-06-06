@@ -44,10 +44,20 @@ import 'data/data_sources/local/i_local_user_support_datasource.dart';
 import 'data/data_sources/remote/i_remote_user_support_source.dart';
 import 'data/data_sources/remote/remote_user_support_source.dart';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:path_provider/path_provider.dart' as path_provider;
+
+
 Future<void> _initializeHive() async {
   try {
-    final directory = await getApplicationDocumentsDirectory();
-    await Hive.initFlutter(directory.path);
+    if (kIsWeb) {
+      // Inicialización para la web
+      await Hive.initFlutter();
+    } else {
+      // Inicialización para móviles
+      final directory = await path_provider.getApplicationDocumentsDirectory();
+      await Hive.initFlutter(directory.path);
+    }
     Hive.registerAdapter(ReportDbAdapter());
     Hive.registerAdapter(UserSupportDbAdapter());
     await Hive.openBox('reportDb');

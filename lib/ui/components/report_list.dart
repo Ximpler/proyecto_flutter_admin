@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_flutter_admin/domain/entities/report.dart';
 import 'package:proyecto_flutter_admin/ui/controllers/report_controller.dart';
+import 'package:proyecto_flutter_admin/ui/controllers/normal_user_controller.dart';
 import 'package:get/get.dart';
 
 import './qualify_reports.dart';
@@ -10,6 +11,9 @@ class ReportList extends StatelessWidget {
   ReportList(this.entry, {Key? key}) : super(key: key);
 
   ReportController user_supportController = Get.find();
+      NormalUserController normal_userController = Get.find();
+
+
   void _showRatingDialog(BuildContext context, int reportId) {
     showDialog(
       context: context,
@@ -17,7 +21,6 @@ class ReportList extends StatelessWidget {
         return RatingPopUp(
           reportId: reportId,
           onRatingSubmitted: (rating) {
-            // Handle the rating submission logic here
             entry.calification = rating;
             user_supportController.updateReport(entry);
             print('Rating submitted: $rating');
@@ -29,6 +32,7 @@ class ReportList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userName = normal_userController.getNormalUser(entry.id_client);
     return GestureDetector(
       onTap: () => _showRatingDialog(context, entry.id ?? 0),
       child: Container(
@@ -62,13 +66,17 @@ class ReportList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Name', // Asumiendo que deberías obtener el nombre desde otra fuente
+                          "Name",
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
-                        Text('Report Id: ${entry.id ?? 'N/A'}'),
+                        Text(
+                          'Report Id: ${entry.id ?? 'N/A'}',
+                          style: const TextStyle(color: Colors.black),
+                        ),
                       ],
                     ),
                   ],
@@ -76,10 +84,14 @@ class ReportList extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text('Calification',
-                        style: TextStyle(fontSize: 12.0)),
+                    const Text(
+                      'Calification',
+                      style: TextStyle(fontSize: 12.0, color: Colors.black),
+                    ),
                     Text(
-                     entry.calification != 0 ? entry.calification.toString() : '-',
+                      entry.calification != 0
+                          ? entry.calification.toString()
+                          : '-',
                       style: const TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
@@ -92,26 +104,26 @@ class ReportList extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             const Text(
-              'Client: Client name', // Asumiendo que deberías obtener el nombre del cliente desde otra fuente
-              style: TextStyle(fontSize: 14.0),
+              'Client: Client name',
+              style: TextStyle(fontSize: 14.0, color: Colors.black),
             ),
             Text(
               'Client id: ${entry.id_client}',
-              style: const TextStyle(fontSize: 14.0),
+              style: const TextStyle(fontSize: 14.0, color: Colors.black),
             ),
             Text(
               'Date: ${entry.time_started}',
-              style: const TextStyle(fontSize: 14.0),
+              style: const TextStyle(fontSize: 14.0, color: Colors.black),
             ),
             const SizedBox(height: 8.0),
             Text(
               entry.problem,
-              style: const TextStyle(fontSize: 14.0),
+              style: const TextStyle(fontSize: 14.0, color: Colors.black),
             ),
             const SizedBox(height: 8.0),
             Text(
-              'Duration time: ${entry.time_end}', // Aquí deberías calcular y mostrar la duración
-              style: const TextStyle(fontSize: 14.0),
+              'Duration time: ${entry.time_end}',
+              style: const TextStyle(fontSize: 14.0, color: Colors.black),
             ),
           ],
         ),

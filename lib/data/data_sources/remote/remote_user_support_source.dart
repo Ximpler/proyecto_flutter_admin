@@ -26,7 +26,7 @@ class RemoteUserSupportSource implements IRemoteUserSupportSource {
       //logInfo(response.body);
       final data = jsonDecode(response.body);
 
-      users = List<UserSupport>.from(data.skip(1).map((x) => UserSupport.fromJson(x)));
+      users = List<UserSupport>.from(data.skip(0).map((x) => UserSupport.fromJson(x)));
       //users.removeAt(1);
     } else {
       logError("Got error code ${response.statusCode}");

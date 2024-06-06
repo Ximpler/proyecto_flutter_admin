@@ -26,7 +26,7 @@ class RemoteReportSource implements IRemoteReportSource {
       //logInfo(response.body);
       final data = jsonDecode(response.body);
 
-      reports = List<Report>.from(data.skip(1).map((x) => Report.fromJson(x)));
+      reports = List<Report>.from(data.skip(0).map((x) => Report.fromJson(x)));
       //reports.removeAt(1);
     } else {
       logError("Got error code ${response.statusCode}");
